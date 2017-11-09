@@ -26,3 +26,4 @@ Pod::Spec.new do |s|
 	
 	s.deprecated = true
 end
+
