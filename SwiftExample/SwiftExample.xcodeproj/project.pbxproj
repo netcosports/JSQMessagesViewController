@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		603CC64B1FB43F6D006E84AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 603CC64A1FB43F6D006E84AE /* LaunchScreen.storyboard */; };
 		60E2BAFFD10C5ED347812C69 /* Pods_SwiftExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288BEF056CDDF0630EB77862 /* Pods_SwiftExample.framework */; };
 		F80276D11CE38FA600063D88 /* DemoConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80276D01CE38FA600063D88 /* DemoConversation.swift */; };
 		F80276D31CE38FEB00063D88 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80276D21CE38FEB00063D88 /* Conversation.swift */; };
@@ -16,7 +17,6 @@
 		F82D09C51CDFBB4900DD74CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D09C41CDFBB4900DD74CF /* ViewController.swift */; };
 		F82D09C81CDFBB4900DD74CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F82D09C61CDFBB4900DD74CF /* Main.storyboard */; };
 		F82D09CA1CDFBB4900DD74CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F82D09C91CDFBB4900DD74CF /* Assets.xcassets */; };
-		F82D09CD1CDFBB4900DD74CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F82D09CB1CDFBB4900DD74CF /* LaunchScreen.storyboard */; };
 		F848952C1CE0EE8800F5B654 /* SwiftExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F848952B1CE0EE8800F5B654 /* SwiftExampleTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		288BEF056CDDF0630EB77862 /* Pods_SwiftExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		603CC64A1FB43F6D006E84AE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB567DEBE7022215514EBCD5 /* Pods-SwiftExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftExample/Pods-SwiftExample.release.xcconfig"; sourceTree = "<group>"; };
 		F3D4828769D3AAC40FBB94C4 /* Pods-SwiftExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftExample/Pods-SwiftExample.debug.xcconfig"; sourceTree = "<group>"; };
 		F80276D01CE38FA600063D88 /* DemoConversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoConversation.swift; sourceTree = "<group>"; };
@@ -43,7 +44,6 @@
 		F82D09C41CDFBB4900DD74CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F82D09C71CDFBB4900DD74CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F82D09C91CDFBB4900DD74CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F82D09CC1CDFBB4900DD74CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F82D09CE1CDFBB4900DD74CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84895291CE0EE8800F5B654 /* SwiftExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F848952B1CE0EE8800F5B654 /* SwiftExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExampleTests.swift; sourceTree = "<group>"; };
@@ -117,8 +117,8 @@
 				F80276D21CE38FEB00063D88 /* Conversation.swift */,
 				F82D09C61CDFBB4900DD74CF /* Main.storyboard */,
 				F82D09C91CDFBB4900DD74CF /* Assets.xcassets */,
-				F82D09CB1CDFBB4900DD74CF /* LaunchScreen.storyboard */,
 				F82D09CE1CDFBB4900DD74CF /* Info.plist */,
+				603CC64A1FB43F6D006E84AE /* LaunchScreen.storyboard */,
 			);
 			path = SwiftExample;
 			sourceTree = "<group>";
@@ -185,9 +185,12 @@
 				TargetAttributes = {
 					F82D09BE1CDFBB4900DD74CF = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = E2F6KNYMR6;
+						LastSwiftMigration = 0830;
 					};
 					F84895281CE0EE8800F5B654 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0830;
 						TestTargetID = F82D09BE1CDFBB4900DD74CF;
 					};
 				};
@@ -216,7 +219,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F82D09CD1CDFBB4900DD74CF /* LaunchScreen.storyboard in Resources */,
+				603CC64B1FB43F6D006E84AE /* LaunchScreen.storyboard in Resources */,
 				F82D09CA1CDFBB4900DD74CF /* Assets.xcassets in Resources */,
 				F82D09C81CDFBB4900DD74CF /* Main.storyboard in Resources */,
 			);
@@ -320,14 +323,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		F82D09CB1CDFBB4900DD74CF /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F82D09CC1CDFBB4900DD74CF /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -421,10 +416,12 @@
 			baseConfigurationReference = F3D4828769D3AAC40FBB94C4 /* Pods-SwiftExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E2F6KNYMR6;
 				INFOPLIST_FILE = SwiftExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MacMeDan.SwiftExample;
+				PRODUCT_BUNDLE_IDENTIFIER = io.skygear.JSQMessages.SwiftExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -433,10 +430,12 @@
 			baseConfigurationReference = CB567DEBE7022215514EBCD5 /* Pods-SwiftExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E2F6KNYMR6;
 				INFOPLIST_FILE = SwiftExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MacMeDan.SwiftExample;
+				PRODUCT_BUNDLE_IDENTIFIER = io.skygear.JSQMessages.SwiftExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -448,6 +447,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MacMeDan.SwiftExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftExample.app/SwiftExample";
 			};
 			name = Debug;
@@ -460,6 +460,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MacMeDan.SwiftExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftExample.app/SwiftExample";
 			};
 			name = Release;

@@ -19,7 +19,7 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     
     var conversations = [Conversation]()
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.conversations = getConversation()
         self.tableView?.reloadData()
@@ -31,13 +31,13 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
         tableView?.tableFooterView = UIView()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let conversation = conversations[indexPath.row]
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? ConversationTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? ConversationTableViewCell else {
             return UITableViewCell()
         }
         //        cell.avatarView.setup(conversation.patientId)
@@ -51,30 +51,30 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("ConversationSegue", sender: indexPath.row)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ConversationSegue", sender: indexPath.row)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let conversationController = segue.destinationViewController as? ChatViewController, row = sender as? Int {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let conversationController = segue.destination as? ChatViewController, let row = sender as? Int {
             let conversation = conversations[row]
             conversationController.conversation = conversation
         }
     }
     
     //MARK: Helper Methods for formating phone numbers
-    func formatPhoneNumber(phoneNumber: String?) -> String {
+    func formatPhoneNumber(_ phoneNumber: String?) -> String {
         guard var phoneNumber = phoneNumber else {
             return ""
         }
         if phoneNumber.characters.count == 10 {
-            phoneNumber.insert("(", atIndex: phoneNumber.startIndex)
-            phoneNumber.insert(")", atIndex: phoneNumber.startIndex.advancedBy(4))
-            phoneNumber.insert("-", atIndex: phoneNumber.startIndex.advancedBy(8))
+            phoneNumber.insert("(", at: phoneNumber.startIndex)
+            phoneNumber.insert(")", at: phoneNumber.characters.index(phoneNumber.startIndex, offsetBy: 4))
+            phoneNumber.insert("-", at: phoneNumber.characters.index(phoneNumber.startIndex, offsetBy: 8))
         }
         return phoneNumber
     }
@@ -85,13 +85,13 @@ extension UIFont {
     
     //This is used for making unread messages bold
     
-    func withTraits(traits: UIFontDescriptorSymbolicTraits...) -> UIFont {
-        let descriptor = self.fontDescriptor().fontDescriptorWithSymbolicTraits(UIFontDescriptorSymbolicTraits(traits))
-        return UIFont(descriptor: descriptor, size: 0)
+    func withTraits(_ traits: UIFontDescriptorSymbolicTraits...) -> UIFont {
+        let descriptor = self.fontDescriptor.withSymbolicTraits(UIFontDescriptorSymbolicTraits(traits))
+        return UIFont(descriptor: descriptor!, size: 0)
     }
     
     func bold() -> UIFont {
-        return withTraits(.TraitBold)
+        return withTraits(.traitBold)
     }
     
 }
