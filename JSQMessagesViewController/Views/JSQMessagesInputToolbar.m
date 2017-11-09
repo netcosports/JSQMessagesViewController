@@ -31,6 +31,7 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
 
 @interface JSQMessagesInputToolbar ()
 
+@property (strong, nonatomic, readwrite) JSQMessagesToolbarContentView *contentView;
 @property (assign, nonatomic) BOOL jsq_isObserving;
 
 @end
@@ -43,9 +44,8 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
 
 #pragma mark - Initialization
 
-- (void)awakeFromNib
+- (void)jsq_configureInputToolbar
 {
-    [super awakeFromNib];
     [self setTranslatesAutoresizingMaskIntoConstraints:NO];
 
     self.jsq_isObserving = NO;
@@ -54,32 +54,55 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
     self.preferredDefaultHeight = 44.0f;
     self.maximumHeight = NSNotFound;
 
-    JSQMessagesToolbarContentView *toolbarContentView = [self loadToolbarContentView];
-    toolbarContentView.frame = self.frame;
-    [self addSubview:toolbarContentView];
-    [self jsq_pinAllEdgesOfSubview:toolbarContentView];
-    [self setNeedsUpdateConstraints];
-    _contentView = toolbarContentView;
+    [self setContentView: [self loadToolbarContentView]];
+    [self.contentView setFrame:self.frame];
+}
 
-    [self jsq_addObservers];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self jsq_configureInputToolbar];
+    }
+    return self;
+}
 
-    self.contentView.leftBarButtonItem = [JSQMessagesToolbarButtonFactory defaultAccessoryButtonItem];
-    self.contentView.rightBarButtonItem = [JSQMessagesToolbarButtonFactory defaultSendButtonItem];
-
-    [self toggleSendButtonEnabled];
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self jsq_configureInputToolbar];
 }
 
 - (JSQMessagesToolbarContentView *)loadToolbarContentView
 {
-    NSArray *nibViews = [[NSBundle bundleForClass:[JSQMessagesInputToolbar class]] loadNibNamed:NSStringFromClass([JSQMessagesToolbarContentView class])
-                                                                                          owner:nil
-                                                                                        options:nil];
+    NSBundle *bundle = [NSBundle bundleForClass:[JSQMessagesInputToolbar class]];
+    NSArray *nibViews = [bundle loadNibNamed:NSStringFromClass([JSQMessagesToolbarContentView class])
+                                       owner:nil
+                                     options:nil];
     return nibViews.firstObject;
 }
 
 - (void)dealloc
 {
     [self jsq_removeObservers];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    if (![self.subviews containsObject:self.contentView]) {
+        [self addSubview:self.contentView];
+
+        [self jsq_pinAllEdgesOfSubview:self.contentView];
+        [self setNeedsUpdateConstraints];
+
+        [self jsq_addObservers];
+
+        self.contentView.leftBarButtonItem = [JSQMessagesToolbarButtonFactory defaultAccessoryButtonItem];
+        self.contentView.rightBarButtonItem = [JSQMessagesToolbarButtonFactory defaultSendButtonItem];
+
+        [self toggleSendButtonEnabled];
+    }
 }
 
 #pragma mark - Setters

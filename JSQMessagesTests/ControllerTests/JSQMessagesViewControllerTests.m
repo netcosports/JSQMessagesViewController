@@ -42,9 +42,6 @@
 
 - (void)testJSQMessagesViewControllerInit
 {
-    UINib *nib = [JSQMessagesViewController nib];
-    XCTAssertNotNil(nib, @"Nib should not be nil");
-    
     JSQMessagesViewController *vc = [JSQMessagesViewController messagesViewController];
     vc.senderId = @"senderId";
     vc.senderDisplayName = @"senderDisplayName";

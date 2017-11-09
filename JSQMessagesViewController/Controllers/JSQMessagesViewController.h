@@ -37,13 +37,13 @@
  *  Returns the collection view object managed by this view controller.
  *  This view controller is the collection view's data source and delegate.
  */
-@property (weak, nonatomic, readonly) JSQMessagesCollectionView *collectionView;
+@property (strong, nonatomic, readonly) JSQMessagesCollectionView *collectionView;
 
 /**
  *  Returns the input toolbar view object managed by this view controller.
  *  This view controller is the toolbar's delegate.
  */
-@property (weak, nonatomic, readonly) JSQMessagesInputToolbar *inputToolbar;
+@property (strong, nonatomic, readonly) JSQMessagesInputToolbar *inputToolbar;
 
 /**
  *  Returns the keyboard controller object used to manage the software keyboard.
@@ -175,18 +175,6 @@
 #pragma mark - Class methods
 
 /**
- *  Returns the `UINib` object initialized for a `JSQMessagesViewController`.
- *
- *  @return The initialized `UINib` object or `nil` if there were errors during initialization
- *  or the nib file could not be located.
- *
- *  @discussion You may override this method to provide a customized nib. If you do,
- *  you should also override `messagesViewController` to return your
- *  view controller loaded from your custom nib.
- */
-+ (UINib *)nib;
-
-/**
  *  Creates and returns a new `JSQMessagesViewController` object.
  *
  *  @discussion This is the designated initializer for programmatic instantiation.
@@ -194,6 +182,22 @@
  *  @return An initialized `JSQMessagesViewController` object if successful, `nil` otherwise.
  */
 + (instancetype)messagesViewController;
+
+/**
+  * Creates a default implementation of `JSQMessagesCollectionView` object.
+  *
+  * @return An initialized `JSQMessagesCollectionView` object
+  *
+  */
++ (JSQMessagesCollectionView *) defaultCollectionView;
+
+/**
+ * Creates a default implementation of `JSQMessagesInputToolbar` object.
+ *
+ * @return An initialized `JSQMessagesInputToolbar` object
+ *
+ */
++ (JSQMessagesInputToolbar *) defaultInputToolbar;
 
 #pragma mark - Messages view controller
 

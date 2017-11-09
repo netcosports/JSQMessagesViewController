@@ -20,15 +20,18 @@
 
 @implementation UIView (JSQMessages)
 
-- (void)jsq_pinSubview:(UIView *)subview toEdge:(NSLayoutAttribute)attribute
+- (NSLayoutConstraint *)jsq_pinSubview:(UIView *)subview toEdge:(NSLayoutAttribute)attribute
 {
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:attribute
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:subview
-                                                     attribute:attribute
-                                                    multiplier:1.0f
-                                                      constant:0.0f]];
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self
+                                                                  attribute:attribute
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:subview
+                                                                  attribute:attribute
+                                                                 multiplier:1.0f
+                                                                   constant:0.0f];
+    [self addConstraint:constraint];
+
+    return constraint;
 }
 
 - (void)jsq_pinAllEdgesOfSubview:(UIView *)subview

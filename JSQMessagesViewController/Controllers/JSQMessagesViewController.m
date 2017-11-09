@@ -34,6 +34,7 @@
 #import "JSQMessagesInputToolbar.h"
 #import "JSQMessagesComposerTextView.h"
 
+#import "UIView+JSQMessages.h"
 #import "NSString+JSQMessages.h"
 #import "UIColor+JSQMessages.h"
 #import "UIDevice+JSQMessages.h"
@@ -117,16 +118,18 @@ static void JSQInstallWorkaroundForSheetPresentationIssue26295020(void) {
 
 static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObservingContext;
 
+static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
 
+@interface JSQMessagesViewController () <
+    JSQMessagesInputToolbarDelegate,
+    JSQMessagesKeyboardControllerDelegate
+>
 
-@interface JSQMessagesViewController () <JSQMessagesInputToolbarDelegate,
-JSQMessagesKeyboardControllerDelegate>
+@property (strong, nonatomic) JSQMessagesCollectionView *collectionView;
+@property (strong, nonatomic) JSQMessagesInputToolbar *inputToolbar;
 
-@property (weak, nonatomic) IBOutlet JSQMessagesCollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet JSQMessagesInputToolbar *inputToolbar;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomLayoutGuide;
+@property (weak, nonatomic) NSLayoutConstraint *toolbarHeightConstraint;
+@property (weak, nonatomic) NSLayoutConstraint *toolbarBottomLayoutGuide;
 
 @property (weak, nonatomic) UIView *snapshotView;
 
@@ -140,32 +143,136 @@ JSQMessagesKeyboardControllerDelegate>
 
 @end
 
-
-
 @implementation JSQMessagesViewController
 
 #pragma mark - Class methods
 
-+ (UINib *)nib
-{
-    return [UINib nibWithNibName:NSStringFromClass([JSQMessagesViewController class])
-                          bundle:[NSBundle bundleForClass:[JSQMessagesViewController class]]];
-}
-
 + (instancetype)messagesViewController
 {
-    return [[[self class] alloc] initWithNibName:NSStringFromClass([JSQMessagesViewController class])
-                                          bundle:[NSBundle bundleForClass:[JSQMessagesViewController class]]];
+    return [[self alloc] init];
 }
 
-+ (void)initialize {
++ (void)initialize
+{
     [super initialize];
     if (self == [JSQMessagesViewController self]) {
         JSQInstallWorkaroundForSheetPresentationIssue26295020();
     }
 }
 
++ (JSQMessagesCollectionView *) defaultCollectionView
+{
+    return [[JSQMessagesCollectionView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.frame
+                                      collectionViewLayout:[[JSQMessagesCollectionViewFlowLayout alloc] init]];
+}
+
++ (JSQMessagesInputToolbar *) defaultInputToolbar
+{
+    CGRect frame = [UIApplication sharedApplication].keyWindow.frame;;
+    frame.origin.y += frame.size.height - JSQMessagesInputToolbarDefaultHeight;
+    frame.size.height = JSQMessagesInputToolbarDefaultHeight;
+
+    return [[JSQMessagesInputToolbar alloc] initWithFrame:frame];
+}
+
 #pragma mark - Initialization
+
+- (instancetype)init
+{
+    return [self initWithCollectionView:[JSQMessagesViewController defaultCollectionView]
+                           inputToolBar:[JSQMessagesViewController defaultInputToolbar]];
+}
+
+- (instancetype)initWithCollectionView:(JSQMessagesCollectionView *)collectionView
+                          inputToolBar:(JSQMessagesInputToolbar *)inputToolbar
+{
+    self = [super init];
+    if (self) {
+        self.collectionView = collectionView;
+        self.inputToolbar = inputToolbar;
+
+    }
+    return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+
+    if (!self.collectionView) {
+        self.collectionView = [JSQMessagesViewController defaultCollectionView];
+    }
+
+    if (!self.inputToolbar) {
+        self.inputToolbar = [JSQMessagesViewController defaultInputToolbar];
+    }
+}
+
+- (void)jsq_configureView
+{
+    [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.inputToolbar];
+
+    self.toolbarHeightConstraint
+        = [NSLayoutConstraint constraintWithItem:self.inputToolbar
+                                       attribute:NSLayoutAttributeHeight
+                                       relatedBy:NSLayoutRelationEqual
+                                          toItem:nil
+                                       attribute:NSLayoutAttributeHeight
+                                      multiplier:1.0f
+                                        constant:JSQMessagesInputToolbarDefaultHeight];
+
+    self.toolbarBottomLayoutGuide = [self.view jsq_pinSubview:self.inputToolbar
+                                                       toEdge:NSLayoutAttributeBottom];
+
+    [self.view addConstraints:@[
+            [NSLayoutConstraint constraintWithItem:self.view
+                                         attribute:NSLayoutAttributeTop
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self.collectionView
+                                         attribute:NSLayoutAttributeTop
+                                        multiplier:1.0f
+                                          constant:0.0f],
+            [NSLayoutConstraint constraintWithItem:self.view
+                                         attribute:NSLayoutAttributeLeft
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self.collectionView
+                                         attribute:NSLayoutAttributeLeft
+                                        multiplier:1.0f
+                                          constant:0.0f],
+            [NSLayoutConstraint constraintWithItem:self.view
+                                         attribute:NSLayoutAttributeRight
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self.collectionView
+                                         attribute:NSLayoutAttributeRight
+                                        multiplier:1.0f
+                                          constant:0.0f],
+            [NSLayoutConstraint constraintWithItem:self.view
+                                         attribute:NSLayoutAttributeBottom
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self.collectionView
+                                         attribute:NSLayoutAttributeBottom
+                                        multiplier:1.0f
+                                          constant:0.0f],
+
+            [NSLayoutConstraint constraintWithItem:self.view
+                                         attribute:NSLayoutAttributeLeft
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self.inputToolbar
+                                         attribute:NSLayoutAttributeLeft
+                                        multiplier:1.0f
+                                          constant:0.0f],
+            [NSLayoutConstraint constraintWithItem:self.view
+                                         attribute:NSLayoutAttributeRight
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self.inputToolbar
+                                         attribute:NSLayoutAttributeRight
+                                        multiplier:1.0f
+                                          constant:0.0f],
+            self.toolbarBottomLayoutGuide,
+            self.toolbarHeightConstraint
+        ]];
+}
 
 - (void)jsq_configureMessagesViewController
 {
@@ -265,8 +372,7 @@ JSQMessagesKeyboardControllerDelegate>
 {
     [super viewDidLoad];
 
-    [[[self class] nib] instantiateWithOwner:self options:nil];
-
+    [self jsq_configureView];
     [self jsq_configureMessagesViewController];
     [self jsq_registerForNotifications:YES];
 }
