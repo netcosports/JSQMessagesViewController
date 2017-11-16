@@ -125,7 +125,6 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     JSQMessagesKeyboardControllerDelegate
 >
 
-@property (strong, nonatomic) JSQMessagesCollectionView *collectionView;
 @property (strong, nonatomic) JSQMessagesInputToolbar *inputToolbar;
 
 @property (weak, nonatomic) NSLayoutConstraint *toolbarHeightConstraint;

@@ -37,7 +37,7 @@
  *  Returns the collection view object managed by this view controller.
  *  This view controller is the collection view's data source and delegate.
  */
-@property (strong, nonatomic, readonly) JSQMessagesCollectionView *collectionView;
+@property (strong, nonatomic) JSQMessagesCollectionView *collectionView;
 
 /**
  *  Returns the input toolbar view object managed by this view controller.
@@ -212,7 +212,7 @@
  *  the prvoided collection view and the provided input toolbar.
  */
 - (instancetype)initWithCollectionView:(JSQMessagesCollectionView *)collectionView
-                          inputToolBar:(JSQMessagesInputToolbar *)inputToolbar;
+                          inputToolBar:(JSQMessagesInputToolbar *)inputToolbar NS_DESIGNATED_INITIALIZER;
 
 /**
  *  This method is called when the user taps the send button on the inputToolbar
