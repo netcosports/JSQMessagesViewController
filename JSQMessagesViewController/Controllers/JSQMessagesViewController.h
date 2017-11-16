@@ -202,6 +202,19 @@
 #pragma mark - Messages view controller
 
 /**
+ *  This is the default constructor initializing JSQMessagesViewController with
+ *  the default collection view and the default input toolbar.
+ */
+- (instancetype)init;
+
+/**
+ *  This is the designating constructor initializing JSQMessagesViewController with
+ *  the prvoided collection view and the provided input toolbar.
+ */
+- (instancetype)initWithCollectionView:(JSQMessagesCollectionView *)collectionView
+                          inputToolBar:(JSQMessagesInputToolbar *)inputToolbar;
+
+/**
  *  This method is called when the user taps the send button on the inputToolbar
  *  after composing a message with the specified data.
  *
