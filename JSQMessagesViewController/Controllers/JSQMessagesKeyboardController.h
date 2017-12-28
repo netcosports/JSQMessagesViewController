@@ -64,9 +64,7 @@ FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerUserInfoKeyKeybo
 
 /**
  *  An instance of `JSQMessagesKeyboardController` manages responding to the hiding and showing 
- *  of the system keyboard for editing its `textView` within its specified `contextView`. 
- *  It also controls user interaction with the system keyboard via its `panGestureRecognizer`, 
- *  allow the user to interactively pan the keyboard up and down in the `contextView`.
+ *  of the system keyboard for editing its `textView` within its specified `contextView`.
  *  
  *  When the system keyboard frame changes, it posts the `JSQMessagesKeyboardControllerNotificationKeyboardDidChangeFrame`.
  */
@@ -88,19 +86,6 @@ FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerUserInfoKeyKeybo
 @property (weak, nonatomic, readonly) UIView *contextView;
 
 /**
- *  The pan gesture recognizer responsible for handling user interaction with the system keyboard.
- */
-@property (weak, nonatomic, readonly) UIPanGestureRecognizer *panGestureRecognizer;
-
-/**
- *  Specifies the distance from the keyboard at which the `panGestureRecognizer`
- *  should trigger user interaction with the keyboard by panning.
- *
- *  @discussion The x value of the point is not used.
- */
-@property (assign, nonatomic) CGPoint keyboardTriggerPoint;
-
-/**
  *  Returns `YES` if the keyboard is currently visible, `NO` otherwise.
  */
 @property (assign, nonatomic, readonly) BOOL keyboardIsVisible;
@@ -116,18 +101,16 @@ FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerUserInfoKeyKeybo
 - (id)init NS_UNAVAILABLE;
 
 /**
- *  Creates a new keyboard controller object with the specified textView, contextView, panGestureRecognizer, and delegate.
+ *  Creates a new keyboard controller object with the specified textView, contextView and delegate.
  *
  *  @param textView             The text view in which the user is editing with the system keyboard. This value must not be `nil`.
  *  @param contextView          The view in which the keyboard will be shown. This should be the parent or a sibling of `textView`. This value must not be `nil`.
- *  @param panGestureRecognizer The pan gesture recognizer responsible for handling user interaction with the system keyboard. This value must not be `nil`.
  *  @param delegate             The object that acts as the delegate of the keyboard controller.
  *
  *  @return An initialized `JSQMessagesKeyboardController` if created successfully, `nil` otherwise.
  */
 - (instancetype)initWithTextView:(UITextView *)textView
                      contextView:(UIView *)contextView
-            panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
                         delegate:(id<JSQMessagesKeyboardControllerDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 /**

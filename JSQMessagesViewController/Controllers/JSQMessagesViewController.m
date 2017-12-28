@@ -314,7 +314,6 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     if (self.inputToolbar.contentView.textView != nil) {
         self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
                                                                               contextView:self.view
-                                                                     panGestureRecognizer:self.collectionView.panGestureRecognizer
                                                                                  delegate:self];
     }
 }
@@ -392,8 +391,6 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
             [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         });
     }
-
-    [self jsq_updateKeyboardTriggerPoint];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -1036,11 +1033,6 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     [self jsq_updateCollectionViewInsets];
 }
 
-- (void)jsq_updateKeyboardTriggerPoint
-{
-    self.keyboardController.keyboardTriggerPoint = CGPointMake(0.0f, CGRectGetHeight(self.inputToolbar.bounds));
-}
-
 #pragma mark - Gesture recognizers
 
 - (void)jsq_handleInteractivePopGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
@@ -1118,8 +1110,6 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     }
 
     [self jsq_adjustInputToolbarHeightConstraintByDelta:dy];
-
-    [self jsq_updateKeyboardTriggerPoint];
 
     if (dy < 0) {
         [self jsq_scrollComposerTextViewToBottomAnimated:NO];
