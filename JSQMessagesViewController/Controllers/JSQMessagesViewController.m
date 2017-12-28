@@ -212,19 +212,36 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.inputToolbar];
 
-    self.toolbarHeightConstraint
-        = [NSLayoutConstraint constraintWithItem:self.inputToolbar
-                                       attribute:NSLayoutAttributeHeight
-                                       relatedBy:NSLayoutRelationEqual
-                                          toItem:nil
-                                       attribute:NSLayoutAttributeHeight
-                                      multiplier:1.0f
-                                        constant:JSQMessagesInputToolbarDefaultHeight];
+    self.toolbarHeightConstraint = [NSLayoutConstraint constraintWithItem:self.inputToolbar
+                                                                attribute:NSLayoutAttributeHeight
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:nil
+                                                                attribute:NSLayoutAttributeHeight
+                                                               multiplier:1.0f
+                                                                 constant:JSQMessagesInputToolbarDefaultHeight];
 
-    self.toolbarBottomLayoutGuide = [self.view jsq_pinSubview:self.inputToolbar
-                                                       toEdge:NSLayoutAttributeBottom];
+    NSArray<NSLayoutConstraint *> *constraints = nil;
+    if (@available(iOS 11.0, *)) {
+        self.toolbarBottomLayoutGuide =
+            [self.view.safeAreaLayoutGuide.bottomAnchor constraintEqualToAnchor:self.inputToolbar.bottomAnchor];
 
-    [self.view addConstraints:@[
+        constraints = @[
+            [self.collectionView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+            [self.collectionView.leftAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leftAnchor],
+            [self.collectionView.rightAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.rightAnchor],
+            [self.collectionView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor],
+
+            [self.inputToolbar.leftAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leftAnchor],
+            [self.inputToolbar.rightAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.rightAnchor],
+            self.toolbarBottomLayoutGuide,
+            self.toolbarHeightConstraint
+        ];
+    } else {
+        // Fallback on earlier versions
+        self.toolbarBottomLayoutGuide = [self.view jsq_pinSubview:self.inputToolbar
+                                                           toEdge:NSLayoutAttributeBottom];
+
+        constraints = @[
             [NSLayoutConstraint constraintWithItem:self.view
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
@@ -270,7 +287,10 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
                                           constant:0.0f],
             self.toolbarBottomLayoutGuide,
             self.toolbarHeightConstraint
-        ]];
+        ];
+    }
+
+    [NSLayoutConstraint activateConstraints:constraints];
 }
 
 - (void)jsq_configureMessagesViewController
