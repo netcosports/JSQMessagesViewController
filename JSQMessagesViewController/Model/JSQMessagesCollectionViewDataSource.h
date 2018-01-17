@@ -111,6 +111,17 @@
 @optional
 
 /**
+ *  Asks the data source for the text color of the message at indexPath in the collectionView.
+ *
+ *  @param collectionView The collection view requesting this information.
+ *  @param indexPath      The index path that specifies the location of the item.
+ *
+ *  @return A color for the message text.
+ */
+- (UIColor *)   collectionView:(JSQMessagesCollectionView *)collectionView
+textColorForMessageAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
  *  Asks the data source for the text to display in the `cellTopLabel` for the specified
  *  message data item at indexPath in the collectionView.
  *

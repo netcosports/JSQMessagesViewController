@@ -671,11 +671,25 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     if (!isMediaMessage) {
         cell.textView.text = [messageItem text];
 
+        UIColor *textColor = nil;
+        if ([collectionView.dataSource respondsToSelector:@selector(collectionView:textColorForMessageAtIndexPath:)]) {
+            textColor = [collectionView.dataSource collectionView:collectionView textColorForMessageAtIndexPath:indexPath];
+        }
+
         if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
             //  workaround for iOS 7 textView data detectors bug
+
+            NSMutableDictionary *textAttributes = [@{} mutableCopy];
+            [textAttributes setValue:collectionView.collectionViewLayout.messageBubbleFont forKey:NSFontAttributeName];
+            if (textColor) {
+                [textAttributes setValue:textColor forKey:NSForegroundColorAttributeName];
+            }
+
             cell.textView.text = nil;
-            cell.textView.attributedText = [[NSAttributedString alloc] initWithString:[messageItem text]
-                                                                           attributes:@{ NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont }];
+            cell.textView.attributedText =
+                [[NSAttributedString alloc] initWithString:[messageItem text] attributes:textAttributes];
+        } else if (textColor) {
+            cell.textView.textColor = textColor;
         }
 
         NSParameterAssert(cell.textView.text != nil);
