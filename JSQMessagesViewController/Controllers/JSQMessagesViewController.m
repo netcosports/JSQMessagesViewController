@@ -118,7 +118,7 @@ static void JSQInstallWorkaroundForSheetPresentationIssue26295020(void) {
 
 static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObservingContext;
 
-static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
+
 
 @interface JSQMessagesViewController () <
     JSQMessagesInputToolbarDelegate,
@@ -127,7 +127,7 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
 
 @property (strong, nonatomic) JSQMessagesInputToolbar *inputToolbar;
 
-@property (weak, nonatomic) NSLayoutConstraint *toolbarHeightConstraint;
+
 @property (weak, nonatomic) NSLayoutConstraint *toolbarBottomLayoutGuide;
 
 @property (weak, nonatomic) UIView *snapshotView;
@@ -167,6 +167,8 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
 
 + (JSQMessagesInputToolbar *) defaultInputToolbar
 {
+    static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
+
     CGRect frame = [UIApplication sharedApplication].keyWindow.frame;;
     frame.origin.y += frame.size.height - JSQMessagesInputToolbarDefaultHeight;
     frame.size.height = JSQMessagesInputToolbarDefaultHeight;
@@ -212,13 +214,13 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.inputToolbar];
 
-    self.toolbarHeightConstraint = [NSLayoutConstraint constraintWithItem:self.inputToolbar
-                                                                attribute:NSLayoutAttributeHeight
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:nil
-                                                                attribute:NSLayoutAttributeHeight
-                                                               multiplier:1.0f
-                                                                 constant:JSQMessagesInputToolbarDefaultHeight];
+    self.inputToolbarHeightConstraint = [NSLayoutConstraint constraintWithItem:self.inputToolbar
+                                                                     attribute:NSLayoutAttributeHeight
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:nil
+                                                                     attribute:NSLayoutAttributeHeight
+                                                                    multiplier:1.0f
+                                                                      constant:self.inputToolbar.preferredDefaultHeight];
 
     NSArray<NSLayoutConstraint *> *constraints = nil;
     if (@available(iOS 11.0, *)) {
@@ -234,7 +236,7 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
             [self.inputToolbar.leftAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leftAnchor],
             [self.inputToolbar.rightAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.rightAnchor],
             self.toolbarBottomLayoutGuide,
-            self.toolbarHeightConstraint
+            self.inputToolbarHeightConstraint
         ];
     } else {
         // Fallback on earlier versions
@@ -286,7 +288,7 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
                                         multiplier:1.0f
                                           constant:0.0f],
             self.toolbarBottomLayoutGuide,
-            self.toolbarHeightConstraint
+            self.inputToolbarHeightConstraint
         ];
     }
 
@@ -299,7 +301,7 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
 
     self.jsq_isObserving = NO;
 
-    self.toolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
+    self.inputToolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
 
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
@@ -401,7 +403,7 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
     NSParameterAssert(self.senderDisplayName != nil);
 
     [super viewWillAppear:animated];
-    self.toolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
+    self.inputToolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
     [self.view layoutIfNeeded];
     [self.collectionView.collectionViewLayout invalidateLayout];
 
@@ -582,19 +584,8 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
 
     NSInteger item = MAX(MIN(indexPath.item, numberOfItems - 1), 0);
     indexPath = [NSIndexPath indexPathForItem:item inSection:0];
-
-    //  workaround for really long messages not scrolling
-    //  if last message is too long, use scroll position bottom for better appearance, else use top
-    //  possibly a UIKit bug, see #480 on GitHub
-    CGSize cellSize = [self.collectionView.collectionViewLayout sizeForItemAtIndexPath:indexPath];
-    CGFloat maxHeightForVisibleMessage = CGRectGetHeight(self.collectionView.bounds)
-                                         - self.collectionView.contentInset.top
-                                         - self.collectionView.contentInset.bottom
-                                         - CGRectGetHeight(self.inputToolbar.bounds);
-    UICollectionViewScrollPosition scrollPosition = (cellSize.height > maxHeightForVisibleMessage) ? UICollectionViewScrollPositionBottom : UICollectionViewScrollPositionTop;
-
     [self.collectionView scrollToItemAtIndexPath:indexPath
-                                atScrollPosition:scrollPosition
+                                atScrollPosition:UICollectionViewScrollPositionBottom
                                         animated:animated];
 }
 
@@ -1138,7 +1129,7 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
 
 - (void)jsq_adjustInputToolbarHeightConstraintByDelta:(CGFloat)dy
 {
-    CGFloat proposedHeight = self.toolbarHeightConstraint.constant + dy;
+    CGFloat proposedHeight = self.inputToolbarHeightConstraint.constant + dy;
 
     CGFloat finalHeight = MAX(proposedHeight, self.inputToolbar.preferredDefaultHeight);
 
@@ -1146,8 +1137,8 @@ static CGFloat JSQMessagesInputToolbarDefaultHeight = 44.0f;
         finalHeight = MIN(finalHeight, self.inputToolbar.maximumHeight);
     }
 
-    if (self.toolbarHeightConstraint.constant != finalHeight) {
-        self.toolbarHeightConstraint.constant = finalHeight;
+    if (self.inputToolbarHeightConstraint.constant != finalHeight) {
+        self.inputToolbarHeightConstraint.constant = finalHeight;
         [self.view setNeedsUpdateConstraints];
         [self.view layoutIfNeeded];
     }
