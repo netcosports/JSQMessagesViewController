@@ -1,19 +1,15 @@
 Pod::Spec.new do |s|
 	s.name = 'JSQMessagesViewController-Skygear'
 	s.module_name = 'JSQMessagesViewController'
-	s.version = '7.3.5.1'
-	s.summary = 'An elegant messages UI library for iOS.'
-	s.homepage = 'http://jessesquires.github.io/JSQMessagesViewController'
+	s.version = '7.3.5.2'
+	s.summary = 'A fork of JSQMessagesViewController for use with SKYKitChat'
+	s.homepage = 'https://skygear.io'
 	s.license = 'MIT'
 	s.platform = :ios, '7.0'
 
-	s.author = 'Jesse Squires'
-	s.social_media_url = 'https://twitter.com/jesse_squires'
-
-	s.screenshots = ['https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot0.png',
-                    'https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot1.png',
-                    'https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot2.png',
-                    'https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot3.png']
+    s.author = { "Oursky Ltd." => "hello@oursky.com" }
+    s.source = { :git => 'https://github.com/SkygearIO/MagicKit.git',
+                 :tag => s.version.to_s }
 
     s.source = { :git => 'https://github.com/SkygearIO/JSQMessagesViewController.git',
                  :tag => s.version.to_s }
@@ -26,4 +22,3 @@ Pod::Spec.new do |s|
 
 	s.dependency 'JSQSystemSoundPlayer', '~> 2.0.1'
 end
-
