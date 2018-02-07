@@ -1,16 +1,13 @@
 Pod::Spec.new do |s|
 	s.name = 'JSQMessagesViewController-Skygear'
 	s.module_name = 'JSQMessagesViewController'
-	s.version = '7.3.5.2'
+	s.version = '7.3.5.3'
 	s.summary = 'A fork of JSQMessagesViewController for use with SKYKitChat'
 	s.homepage = 'https://skygear.io'
 	s.license = 'MIT'
 	s.platform = :ios, '7.0'
 
     s.author = { "Oursky Ltd." => "hello@oursky.com" }
-    s.source = { :git => 'https://github.com/SkygearIO/MagicKit.git',
-                 :tag => s.version.to_s }
-
     s.source = { :git => 'https://github.com/SkygearIO/JSQMessagesViewController.git',
                  :tag => s.version.to_s }
 	s.source_files = 'JSQMessagesViewController/**/*.{h,m}'
