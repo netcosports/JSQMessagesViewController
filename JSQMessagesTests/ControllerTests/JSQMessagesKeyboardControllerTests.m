@@ -33,13 +33,11 @@
 {
     JSQMessagesKeyboardController *keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:[UITextView new]
                                                                                                     contextView:[UIView new]
-                                                                                           panGestureRecognizer:[UIPanGestureRecognizer new]
                                                                                                        delegate:nil];
     XCTAssertNotNil(keyboardController, @"Keyboard controller should not be nil");
     
     XCTAssertThrows([[JSQMessagesKeyboardController alloc] initWithTextView:nil
                                                                 contextView:nil
-                                                       panGestureRecognizer:nil
                                                                    delegate:nil], @"Invalid init should throw");
 }
 
