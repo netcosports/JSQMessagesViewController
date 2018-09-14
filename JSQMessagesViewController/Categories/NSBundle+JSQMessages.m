@@ -112,8 +112,14 @@ static NSString * const JSQLanguageManagerSavedLanguageKey = @"savedLanguage";
 
 + (NSBundle *)jsq_messagesAssetBundle
 {
+    NSString *assetPath = [bundleResourcePath stringByAppendingPathComponent:@"JSQMessagesAssets.bundle"];
+    return [NSBundle bundleWithPath:assetPath];
+}
+
++ (NSBundle *)jsq_messagesAssetLocalizationBundle
+{
     NSString *bundleResourcePath = [NSBundle jsq_messagesBundle].resourcePath;
- 
+    
     NSString *bundleCode = [[JSQLanguageManager language] code];
     
     NSString *assetPath = [bundleResourcePath stringByAppendingPathComponent:@"JSQMessagesAssets.bundle"];
@@ -127,7 +133,7 @@ static NSString * const JSQLanguageManagerSavedLanguageKey = @"savedLanguage";
 
 + (NSString *)jsq_localizedStringForKey:(NSString *)key
 {
-    NSBundle *bundle = [NSBundle jsq_messagesAssetBundle];
+    NSBundle *bundle = [NSBundle jsq_messagesAssetLocalizationBundle];
     NSString *format = NSLocalizedStringFromTableInBundle(key, @"JSQMessages", bundle, nil);
     NSString *string = [[NSString alloc] initWithFormat:format locale:NSLocale.currentLocale];
     NSLog(@"localized: %@", string);
