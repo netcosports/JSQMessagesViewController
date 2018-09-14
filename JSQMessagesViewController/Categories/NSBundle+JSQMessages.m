@@ -135,7 +135,7 @@ static NSString * const JSQLanguageManagerSavedLanguageKey = @"savedLanguage";
 + (NSString *)jsq_localizedStringForKey:(NSString *)key
 {
     NSBundle *bundle = [NSBundle jsq_messagesAssetLocalizationBundle];
-    NSString *format = NSLocalizedStringFromTableInBundle(key, @"JSQMessages", bundle, nil);
+    NSString *format = NSLocalizedStringWithDefaultValue(key, @"JSQMessages", bundle, key, nil);
     NSString *string = [[NSString alloc] initWithFormat:format locale:NSLocale.currentLocale];
     NSLog(@"localized: %@", string);
     return string;
