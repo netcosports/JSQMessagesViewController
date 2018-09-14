@@ -112,6 +112,7 @@ static NSString * const JSQLanguageManagerSavedLanguageKey = @"savedLanguage";
 
 + (NSBundle *)jsq_messagesAssetBundle
 {
+    NSString *bundleResourcePath = [NSBundle jsq_messagesBundle].resourcePath;
     NSString *assetPath = [bundleResourcePath stringByAppendingPathComponent:@"JSQMessagesAssets.bundle"];
     return [NSBundle bundleWithPath:assetPath];
 }
