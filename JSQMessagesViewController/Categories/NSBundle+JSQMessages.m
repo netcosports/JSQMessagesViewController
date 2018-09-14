@@ -120,9 +120,9 @@ static NSString * const JSQLanguageManagerSavedLanguageKey = @"savedLanguage";
     
     NSBundle *bundle = [NSBundle bundleWithPath:assetPath];
     
-    NSString *bundleResourcePath = [bundle pathForResource:bundleCode ofType:@"lproj"];
+    NSString *pathToLocalization = [bundle pathForResource:bundleCode ofType:@"lproj"];
     
-    return [[NSBundle alloc] initWithPath:bundleResourcePath];
+    return [[NSBundle alloc] initWithPath:pathToLocalization];
 }
 
 + (NSString *)jsq_localizedStringForKey:(NSString *)key
