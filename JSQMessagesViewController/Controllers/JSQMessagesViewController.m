@@ -42,7 +42,6 @@
 
 #import <objc/runtime.h>
 
-
 // Fixes rdar://26295020
 // See issue #1247 and Peter Steinberger's comment:
 // https://github.com/jessesquires/JSQMessagesViewController/issues/1247#issuecomment-219386199
@@ -307,9 +306,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     self.collectionView.delegate = self;
 
     self.inputToolbar.delegate = self;
-    self.inputToolbar.contentView.textView.placeHolder = [NSBundle jsq_localizedStringForKey:@"new_message"];
+    self.inputToolbar.contentView.textView.placeHolder = [JSQMessagesViewControllerTextCustomization sharedInstance].message;
 
-    self.inputToolbar.contentView.textView.accessibilityLabel = [NSBundle jsq_localizedStringForKey:@"new_message"];
+    self.inputToolbar.contentView.textView.accessibilityLabel = [JSQMessagesViewControllerTextCustomization sharedInstance].message;
 
     self.inputToolbar.contentView.textView.delegate = self;
 
@@ -545,7 +544,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         [self scrollToBottomAnimated:animated];
     }
 
-    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSBundle jsq_localizedStringForKey:@"new_message_received_accessibility_announcement"]);
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [JSQMessagesViewControllerTextCustomization sharedInstance].messageAccessibilityLabel);
 }
 
 - (void)scrollToBottomAnimated:(BOOL)animated
@@ -767,12 +766,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     const BOOL isMediaMessage = [messageItem isMediaMessage];
     cell.isAccessibilityElement = YES;
     if (!isMediaMessage) {
-        cell.accessibilityLabel = [NSString stringWithFormat:[NSBundle jsq_localizedStringForKey:@"text_message_accessibility_label"],
+        cell.accessibilityLabel = [NSString stringWithFormat:[JSQMessagesViewControllerTextCustomization sharedInstance].textMessageAccessibilityLabel,
                                    [messageItem senderDisplayName],
                                    [messageItem text]];
     }
     else {
-        cell.accessibilityLabel = [NSString stringWithFormat:[NSBundle jsq_localizedStringForKey:@"media_message_accessibility_label"],
+        cell.accessibilityLabel = [NSString stringWithFormat:[JSQMessagesViewControllerTextCustomization sharedInstance].mediaMessageAccessibilityLabel,
                                    [messageItem senderDisplayName]];
     }
 }
@@ -1271,12 +1270,33 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
                                                            action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
         self.currentInteractivePopGestureRecognizer = nil;
     }
-    
+
     if (addAction) {
         [self.navigationController.interactivePopGestureRecognizer addTarget:self
                                                                       action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
         self.currentInteractivePopGestureRecognizer = self.navigationController.interactivePopGestureRecognizer;
     }
+}
+
+@end
+
+@implementation JSQMessagesViewControllerTextCustomization
+
++ (instancetype)sharedInstance
+{
+    static JSQMessagesViewControllerTextCustomization *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[JSQMessagesViewControllerTextCustomization alloc] init];
+        sharedInstance.loadEarlerMessagesButton = NSLocalizedString(@"load_earlier_messages", comment: "");
+        sharedInstance.accessoryButtonAccessibilityLabel = NSLocalizedString(@"accessory_button_accessibility_label", comment: "");
+        sharedInstance.sendButton = NSLocalizedString(@"send", comment: "");
+        sharedInstance.message = NSLocalizedString(@"new_message", comment: "");
+        sharedInstance.messageAccessibilityLabel = NSLocalizedString(@"new_message_received_accessibility_announcement", comment: "");
+        sharedInstance.textMessageAccessibilityLabel = NSLocalizedString(@"text_message_accessibility_label", comment: "");
+        sharedInstance.mediaMessageAccessibilityLabel = NSLocalizedString(@"media_message_accessibility_label", comment: "");
+    });
+    return sharedInstance;
 }
 
 @end

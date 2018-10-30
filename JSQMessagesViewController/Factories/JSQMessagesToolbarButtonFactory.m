@@ -21,6 +21,7 @@
 #import "UIColor+JSQMessages.h"
 #import "UIImage+JSQMessages.h"
 #import "NSBundle+JSQMessages.h"
+#import "JSQMessagesViewController.h"
 
 
 @implementation JSQMessagesToolbarButtonFactory
@@ -38,8 +39,8 @@
     accessoryButton.contentMode = UIViewContentModeScaleAspectFit;
     accessoryButton.backgroundColor = [UIColor clearColor];
     accessoryButton.tintColor = [UIColor lightGrayColor];
-    
-    accessoryButton.accessibilityLabel = [NSBundle jsq_localizedStringForKey:@"accessory_button_accessibility_label"];
+
+    accessoryButton.accessibilityLabel = [JSQMessagesViewControllerTextCustomization sharedInstance].accessoryButtonAccessibilityLabel;
 
     return accessoryButton;
 }

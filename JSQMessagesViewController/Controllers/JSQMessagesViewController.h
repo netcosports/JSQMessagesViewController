@@ -76,7 +76,7 @@
 @property (assign, nonatomic) BOOL automaticallyScrollsToMostRecentMessage;
 
 /**
- *  The collection view cell identifier to use for dequeuing outgoing message collection view cells 
+ *  The collection view cell identifier to use for dequeuing outgoing message collection view cells
  *  in the collectionView for text messages.
  *
  *  @discussion This cell identifier is used for outgoing text message data items.
@@ -85,10 +85,10 @@
  *
  *  @see JSQMessagesCollectionViewCellOutgoing.
  *
- *  @warning Overriding this property's default value is *not* recommended. 
+ *  @warning Overriding this property's default value is *not* recommended.
  *  You should only override this property's default value if you are proividing your own cell prototypes.
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for 
- *  completely overriding many delegate and data source methods for the collectionView, 
+ *  These prototypes must be registered with the collectionView for reuse and you are then responsible for
+ *  completely overriding many delegate and data source methods for the collectionView,
  *  including `collectionView:cellForItemAtIndexPath:`.
  */
 @property (copy, nonatomic) NSString *outgoingCellIdentifier;
@@ -112,7 +112,7 @@
 @property (copy, nonatomic) NSString *outgoingMediaCellIdentifier;
 
 /**
- *  The collection view cell identifier to use for dequeuing incoming message collection view cells 
+ *  The collection view cell identifier to use for dequeuing incoming message collection view cells
  *  in the collectionView for text messages.
  *
  *  @discussion This cell identifier is used for incoming text message data items.
@@ -121,16 +121,16 @@
  *
  *  @see JSQMessagesCollectionViewCellIncoming.
  *
- *  @warning Overriding this property's default value is *not* recommended. 
- *  You should only override this property's default value if you are proividing your own cell prototypes. 
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for 
- *  completely overriding many delegate and data source methods for the collectionView, 
+ *  @warning Overriding this property's default value is *not* recommended.
+ *  You should only override this property's default value if you are proividing your own cell prototypes.
+ *  These prototypes must be registered with the collectionView for reuse and you are then responsible for
+ *  completely overriding many delegate and data source methods for the collectionView,
  *  including `collectionView:cellForItemAtIndexPath:`.
  */
 @property (copy, nonatomic) NSString *incomingCellIdentifier;
 
 /**
- *  The collection view cell identifier to use for dequeuing incoming message collection view cells 
+ *  The collection view cell identifier to use for dequeuing incoming message collection view cells
  *  in the collectionView for media messages.
  *
  *  @discussion This cell identifier is used for incoming media message data items.
@@ -342,5 +342,19 @@
  @param notification The posted notification.
  */
 - (void)didReceiveMenuWillHideNotification:(NSNotification *)notification;
+
+@end
+
+@interface JSQMessagesViewControllerTextCustomization: NSObject
+
+@property (nonatomic, strong) NSString *loadEarlerMessagesButton;
+@property (nonatomic, strong) NSString *accessoryButtonAccessibilityLabel;
+@property (nonatomic, strong) NSString *sendButton;
+@property (nonatomic, strong) NSString *message;
+@property (nonatomic, strong) NSString *messageAccessibilityLabel;
+@property (nonatomic, strong) NSString *textMessageAccessibilityLabel;
+@property (nonatomic, strong) NSString *mediaMessageAccessibilityLabel;
+
++ (instancetype)sharedInstance;
 
 @end
