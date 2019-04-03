@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	s.name = 'JSQMessagesViewController-Skygear'
 	s.module_name = 'JSQMessagesViewController'
-	s.version = '7.3.5.4.3'
+	s.version = '7.3.5.4.4'
 	s.summary = 'A fork of JSQMessagesViewController for use with SKYKitChat'
 	s.homepage = 'https://skygear.io'
 	s.license = 'MIT'
