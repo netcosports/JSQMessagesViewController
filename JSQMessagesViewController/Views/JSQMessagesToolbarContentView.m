@@ -112,19 +112,19 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 8.0f;
 
 - (void)setRightBarButtonItem:(UIButton *)rightBarButtonItem
   {
-    if (_rightBarButtonItem) {
-      [_rightBarButtonItem removeFromSuperview];
-    }
-
-    if (!rightBarButtonItem) {
-      _rightBarButtonItem = nil;
-      self.rightHorizontalSpacingConstraint.constant = 0.0f;
-      self.rightBarButtonItemWidth = 0.0f;
-      self.rightBarButtonContainerView.hidden = YES;
-      return;
-    }
-
     if ([rightBarButtonItem respondsToSelector: @selector(frame)]) {
+      if (_rightBarButtonItem) {
+        [_rightBarButtonItem removeFromSuperview];
+      }
+
+      if (!rightBarButtonItem) {
+        _rightBarButtonItem = nil;
+        self.rightHorizontalSpacingConstraint.constant = 0.0f;
+        self.rightBarButtonItemWidth = 0.0f;
+        self.rightBarButtonContainerView.hidden = YES;
+        return;
+      }
+
       if (CGRectEqualToRect(rightBarButtonItem.frame, CGRectZero)) {
         rightBarButtonItem.frame = self.rightBarButtonContainerView.bounds;
       }
